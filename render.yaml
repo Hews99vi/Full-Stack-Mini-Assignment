@@ -1,0 +1,29 @@
+services:
+  # Backend API
+  - type: web
+    name: employee-feedback-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false # You'll add this in Render dashboard
+    healthCheckPath: /health
+
+  # Frontend Static Site
+  - type: web
+    name: employee-feedback-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false # Add your backend URL here
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
