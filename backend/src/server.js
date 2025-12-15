@@ -1,5 +1,9 @@
 // File: backend/src/server.js
-require('dotenv').config();
+// Load environment variables (only in development)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -19,6 +23,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan('dev'));
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Employee Feedback Backend API ✅',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      feedback: '/feedback',
+      auth: '/auth'
+    }
+  });
+});
 
 // Health check route
 app.get('/health', (req, res) => {
