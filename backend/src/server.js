@@ -36,7 +36,7 @@ app.use(errorHandler);
 module.exports = app;
 
 // Start server (only for local development)
-if (process.env.NODE_ENV !== 'production') {
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
   });
